@@ -1,0 +1,42 @@
+{
+  "name": "blocipedia-node",
+  "version": "1.0.0",
+  "description": "A wiki-like application for users to share content",
+  "main": "\u001b[D\u001bsrc/server.js)",
+  "scripts": {
+    "test": "set NODE_ENV=test&& jasmine",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brianguta2000/blocipedia-node.git"
+  },
+  "author": "Brian Guta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brianguta2000/blocipedia-node/issues"
+  },
+  "homepage": "https://github.com/brianguta2000/blocipedia-node#readme",
+  "devDependencies": {
+    "jasmine": "^3.0.0",
+    "request": "^2.83.0"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.0",
+    "ejs": "^2.5.7",
+    "express": "^4.16.4",
+    "express-flash": "0.0.2",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.0.2",
+    "faker": "^4.1.0",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.32.6"
+  }
+}
