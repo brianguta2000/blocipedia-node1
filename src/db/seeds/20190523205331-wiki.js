@@ -28,12 +28,12 @@ module.exports = {
 
     let wikis = [];
 
-    for(let i = 1 ; i <= 15 ; i++){
-      wikis.push({
-        title: faker.hacker.phrase(),
-        body: faker.lorem.paragraph(),
+     for(let i = 1 ; i <= 15 ; i++){
+     wikis.push({
+        title: "title",
+        body: "title",
         private: false,
-        userId: userRows[userRows.length-1-i%3].id,
+        userId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
