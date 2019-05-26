@@ -30,7 +30,7 @@ module.exports = {
       callback(null, user.id);
     });
     passport.deserializeUser((id, callback) => {
-      User.findByPk(id)
+      User.findById(id)
       .then((user) => {
         callback(null, user);
       })
