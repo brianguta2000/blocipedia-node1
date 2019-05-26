@@ -29,7 +29,7 @@ module.exports = {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         const msg = {
           to: user.email,
-          from: 'ari.abramowitz1@gmail.com',
+          from: 'brianguta2000@yahoo.com',
           subject: "You've created an account on Blocipiedia",
           text: 'Thanks for joining!',
           html: '<strong>Hope to see you around often!</strong>',
