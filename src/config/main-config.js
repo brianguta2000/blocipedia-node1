@@ -21,7 +21,7 @@ module.exports = {
     app.use(logger('dev'));
     app.use(expressValidator());
     app.use(session({
-      secret: process.env.cookieSecret,
+      secret: process.env.cookieSecret || '123',
       resave: false,
       saveUninitialized: false,
       cookie: {maxAge: 1.21e+9} // set cookie to espire in 14 days
