@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <h1>Downgrade to Standard Account</h1>
+
+      <hr>
+
+      <p>If you downgrade your account, <b>you will no longer be able to create private wikis</b> untill you purchase a new upgrade.</p>
+      <p>Click below to downgrade to a standard account.</p>
+
+      <hr>
+
+      <form action="downgradeUser" method="POST">
+          <button type="submit" class="btn btn-danger btn-lg">Downgrade Account</button>
+      </form>
+
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+
+</html>

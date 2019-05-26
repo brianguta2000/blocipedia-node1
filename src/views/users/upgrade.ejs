@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <h1>Upgade to Premium</h1>
+
+      <hr>
+
+      <p>In addition to the free features, premium users can <b>create private wikis.</b></p>
+      <p>Click below to upgrade to a premium account.</p>
+
+      <hr>
+
+      <div id="shop">
+        <button id="buttonCheckout" class="btn btn-primary btn-lg">Purchase Upgrade</button>
+      </div>
+
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+
+  <script>
+    var checkoutHandler = StripeCheckout.configure({
+      key: "sk_test_RV6CP0A3gsMdE67ALFCwxGxn00HGlaYTCw",
+      locale: "auto"
+    });
+    var button = document.getElementById("buttonCheckout");
+    button.addEventListener("click", function(ev) {
+      checkoutHandler.open({
+        name: "Premium Account Upgrade",
+        description: "one-time payment",
+        token: handleToken,
+        amount: 1500,
+        currency: "usd",
+      });
+    });
+    function handleToken(token) {
+      fetch("upgradeCharge", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(token)
+      })
+      .then(response => {
+        if (!response.ok)
+          throw response;
+        return response.json();
+      })
+      .then(output => {
+        if (output.status === "succeeded")
+          document.getElementById("shop").innerHTML = "<p class='alert alert-success'>Purchase complete!</p>";
+          console.log("Purchase succeeded:", output);
+          // change user role
+          fetch("upgradeUser", {
+            method: "POST",
+          })
+          .then(() => {
+            document.getElementById("shop").innerHTML = "<p class='alert alert-success'>Purchase complete!</p><p class='alert alert-success'>Your account has been upgraded to premium!</p><a href='/' class='btn btn-primary btn-lg'>Return to Home Page</a>";
+            document.getElementById("upgrade-nav-btn").innerHTML = '<a class="nav-link" href="/users/downgradeForm">Downgrade Account</a>';
+          })
+      })
+      .catch(err => {
+        console.log("Purchase failed:", err);
+      })
+    }
+  </script>
+
+</html>

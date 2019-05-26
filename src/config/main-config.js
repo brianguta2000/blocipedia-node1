@@ -7,12 +7,16 @@ const session = require("express-session");
 const flash = require("express-flash");
 const logger = require('morgan');
 passportConfig = require("./passport-config");
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const keySecret = process.env.SECRET_KEY;
+const stripe = require("stripe")(keySecret);
 
 module.exports = {
   init(app, express){
     app.set("views", viewsFolder);
     app.set("view engine", "ejs");
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
     app.use(express.static(path.join(__dirname, "..", "assets")));
     app.use(logger('dev'));
     app.use(expressValidator());
