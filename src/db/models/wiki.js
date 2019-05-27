@@ -17,11 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    private: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
     }
   }, {});
   Wiki.associate = function(models) {
