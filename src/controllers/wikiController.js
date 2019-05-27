@@ -2,6 +2,7 @@ const wikiQueries = require("../db/queries.wikis.js");
 const PublicAuthorizer = require("../policies/publicWiki.js");
 const PrivateAuthorizer = require("../policies/privateWiki.js");
 const GeneralAuthorizer = require("../policies/application.js");
+const markdown = require( "markdown" ).markdown;
 
 
 module.exports = {
@@ -63,6 +64,7 @@ module.exports = {
       if(err || wiki == null) {
         res.redirect(404, "/");
       } else {
+        wiki.body = markdown.toHTML( wiki.body );
         res.render("wikis/show", {wiki});
       }
     });
