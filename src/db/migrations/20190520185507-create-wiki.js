@@ -14,12 +14,7 @@ module.exports = {
       },
       body: {
         allowNull: false,
-        type: Sequelize.STRING
-      },
-      private: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
