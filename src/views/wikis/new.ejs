@@ -14,12 +14,31 @@
 
       <form action="/wikis/create" method="post">
 
+
+        <% if(currentUser && currentUser.role !== 0) { %>
+          <div class="form-group">
+            <!-- Default inline 1-->
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" class="custom-control-input" id="private-false" name="private" value="false">
+              <label class="custom-control-label" for="private-false">Public</label>
+            </div>
+            <!-- Default inline 2-->
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" class="custom-control-input" id="private-true" name="private" value="true">
+              <label class="custom-control-label" for="private-true">Private</label>
+            </div>
+            <small class="text-muted" id="titleHelp">If left blank, your wiki will be made public by default.</small>
+          </div>
+        <% } %>
+
+
         <div class="form-group">
           <label for="title">Wiki title</label>
           <input type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
             <small class="text-muted" id="titleHelp">Title must be 5 or more characters in length.</small>
 
         </div>
+
         <div class="form-group">
           <label for="body">Wiki Body</label>
           <textarea rows="4" class="form-control" name="body" placeholder="Enter Wiki Body"></textarea>

@@ -166,6 +166,7 @@ module.exports = {
         res.redirect("/users/downgradeForm");
       } else {
         req.flash("notice", "You've been downgraded to a standard account!");
+        req.flash("notice", "Your private wikis have been made public.");
         res.redirect("/");
       }
     })

@@ -1,5 +1,7 @@
 const User = require("./models").User;
+const Wiki = require("./models").Wiki;
 const bcrypt = require("bcryptjs");
+const Sequelize = require('sequelize');
 
 module.exports = {
   createUser(newUser, callback){
@@ -51,22 +53,38 @@ module.exports = {
   },
 
   downgradeUser(id, callback){
-    return User.findById(id)
-    .then((user) => {
-      if(!user){
-        return callback("User not found");
-      }
+    const Op = Sequelize.Op;
 
-      user.update(
-        {role: 0},
-        {where: id}
-      )
-      .then(() => {
-        callback(null, user);
+    return Wiki.update({
+      private: false
+    }, {
+      where: {
+        userId: {
+          [Op.eq]: id
+        }
+      }
+    })
+    .then(() => {
+      User.findById(id)
+      .then((user) => {
+        if(!user){
+          return callback("User not found");
+        }
+
+        user.update(
+          {role: 0},
+          {where: id}
+        )
+        .then(() => {
+          callback(null, user);
+        })
+        .catch((err) => {
+          callback(err);
+        })
       })
       .catch((err) => {
         callback(err);
-      });
-    });
+      })
+    })
   }
 }

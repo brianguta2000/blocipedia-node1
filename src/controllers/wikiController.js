@@ -1,4 +1,8 @@
 const wikiQueries = require("../db/queries.wikis.js");
+const PublicAuthorizer = require("../policies/publicWiki.js");
+const PrivateAuthorizer = require("../policies/privateWiki.js");
+const GeneralAuthorizer = require("../policies/application.js");
+
 
 module.exports = {
   index(req, res, next){
@@ -13,22 +17,45 @@ module.exports = {
   },
 
   new(req, res, next){
-    res.render("wikis/new");
+    const authorized = new GeneralAuthorizer(req.user).new();
+
+    if(authorized){
+      res.render("wikis/new");
+    } else {
+      req.flash("notice", "You are not authorized to do that.");
+      res.redirect("/wikis");
+    }
   },
 
   create(req, res, next){
-    let newWiki = {
-      title: req.body.title,
-      body: req.body.body,
-      userId: req.user.id
-    };
-    wikiQueries.addWiki(newWiki, (err, wiki) => {
-      if (err) {
-        res.redirect (500, "/wikis/new");
-      } else {
-        res.redirect (303, `/wikis/${wiki.id}`);
-      }
-    });
+    let wikiIsPrivate = (req.body.private === "true");
+
+    let authorized;
+
+    if(wikiIsPrivate){
+      authorized = new PrivateAuthorizer(req.user).create();
+    } else {
+      authorized = new PublicAuthorizer(req.user).create();
+    }
+
+    if (authorized) {
+      let newWiki = {
+        title: req.body.title,
+        body: req.body.body,
+        private: wikiIsPrivate,
+        userId: req.user.id,
+      };
+      wikiQueries.addWiki(newWiki, (err, wiki) => {
+        if (err) {
+          res.redirect (500, "/wikis/new");
+        } else {
+          res.redirect (303, `/wikis/${wiki.id}`);
+        }
+      });
+    } else {
+      req.flash("notice", "You are not authorized to do that.");
+      res.redirect("/wikis");
+    }
   },
 
   show (req, res, next) {

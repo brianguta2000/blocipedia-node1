@@ -10,21 +10,78 @@
 
       <% include ../static/partials/messages.ejs %>
 
-      <h1>Public Wikis</h1>
-
       <% if(currentUser) {%>
         <a href="/wikis/new" class="btn btn-primary">New Wiki</a>
+        <% if(currentUser.role !== 0) { %>
+          <h1>Your Private Wikis</h1>
+          <% var hasPrivateWikis = false %>
+          <ul class="list-group">
+            <% wikis.forEach((wiki) => { %>
+              <% if(wiki.userId === currentUser.id && wiki.private) { %>
+                <li class="list-group-item">
+                  <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+                </li>
+                <% hasPrivateWikis = true %>
+              <% } %>
+            <% }) %>
+            <% if(!hasPrivateWikis) { %>
+              <p>You have no private wikis.</p>
+            <% } %>
+          </ul>
+          <hr>
+        <% } %>
+        <h1>Your Public Wikis</h1>
+        <% var hasPublicWikis = false %>
+        <ul class="list-group">
+          <% wikis.forEach((wiki) => { %>
+            <% if(wiki.userId === currentUser.id && !wiki.private) { %>
+              <li class="list-group-item">
+                <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+              </li>
+              <% hasPublicWikis = true %>
+            <% } %>
+          <% }) %>
+          <% if(!hasPublicWikis) { %>
+            <p>You have no public wikis.</p>
+          <% } %>
+        </ul>
+        <hr>
+        <% if(currentUser.role === 2) { %>
+          <h1>All Private Wikis</h1>
+          <% var arePrivateWikis = false %>
+          <ul class="list-group">
+            <% wikis.forEach((wiki) => { %>
+              <% if(wiki.private === true) { %>
+                <li class="list-group-item">
+                  <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+                </li>
+                <% arePrivateWikis = true %>
+              <% } %>
+            <% }) %>
+            <% if(!arePrivateWikis) { %>
+              <p>There are no private wikis.</p>
+            <% } %>
+          </ul>
+          <hr>
+        <% } %>
       <% } %>
+
+      <h1>All Public Wikis</h1>
 
       <ul class="list-group">
 
         <% wikis.forEach((wiki) => { %>
-          <li class="list-group-item">
-            <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
-          </li>
+          <% if(wiki.private === false) { %>
+            <li class="list-group-item">
+              <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+            </li>
+          <% } %>
         <% }) %>
       </ul>
 
     </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
   </body>
 </html>

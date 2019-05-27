@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     body: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     private: {
       type: DataTypes.BOOLEAN,
@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    private: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   }, {});
   Wiki.associate = function(models) {
