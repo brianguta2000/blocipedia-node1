@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <h1><%= wiki.title %></h1>
+      <a href="/wikis/<%= wiki.id %>" class="btn btn-primary">Return to Wiki</a>
+      <hr>
+
+      <h3>Owner</h3>
+      <p><%= wiki.User.name %>     <small>(<%= wiki.User.email %>)</small></p>
+      <hr>
+
+      <h3>Collaborators</h3>
+        <section id="add-collaborator-form">
+          <% if (1 === 1) { %>
+            <% include ../collaborators/new.ejs %>
+          <% } %>
+        </section>
+        <% if(wiki.collaborators.length > 0) { %>
+          <table style="width:100%" class="table table-sm">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col"></th>
+            </tr>
+            <% wiki.collaborators.forEach((collaborator) => { %>
+              <tr>
+                <td><%= collaborator.User.name %></td>
+                <td><%= collaborator.User.email %></td>
+                <td>
+                  <% if(currentUser && (currentUser.role === 2 || currentUser.id === wiki.userId)) { %>
+                    <form class="" action="/wikis/<%= wiki.id%>/collaborators/<%= collaborator.id%>/destroy" method="post">
+                      <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </table>
+        <% } else { %>
+          <p>This wiki has no collaborators.</p>
+        <% } %>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

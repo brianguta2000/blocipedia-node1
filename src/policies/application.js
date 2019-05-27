@@ -10,7 +10,21 @@ module.exports = class ApplicationPolicy {
   }
 
   _isAdmin() {
-    return this.user && this.user.role == "admin";
+    return this.user && this.user.role == 2;
+  }
+
+  _isCollaborator() {
+    var isCollaborator = false;
+    // console.log(this.record.collaborators);
+    if(this.record){
+      for(let i = 0; i < this.record.collaborators.length; i++){
+        if (this.record.collaborators[i].User.id === this.user.id){
+          isCollaborator = true;
+          break;
+        }
+      }
+    }
+    return this.record && isCollaborator;
   }
 
   new() {
@@ -26,8 +40,7 @@ module.exports = class ApplicationPolicy {
   }
 
   edit() {
-    return this.new() &&
-      this.record && (this._isOwner() || this._isAdmin());
+    return this.new() && this.record;
   }
 
   update() {

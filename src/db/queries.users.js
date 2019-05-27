@@ -32,6 +32,16 @@ module.exports = {
     })
   },
 
+  getUserByEmail(email, callback){
+    User.findOne({ where: {email} })
+    .then((user) => {
+      callback(null, user);
+    })
+    .catch((err) => {
+      callback(err);
+    })
+  },
+
   upgradeUser(id, callback){
     return User.findById(id)
     .then((user) => {

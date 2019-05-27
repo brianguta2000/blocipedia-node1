@@ -1,10 +1,6 @@
 const ApplicationPolicy = require("./application");
 
-module.exports = class PostPolicy extends ApplicationPolicy {
-
-  edit() {
-    return this.new();
-  }
+module.exports = class PublicWikiPolicy extends ApplicationPolicy {
 
   update() {
     return this.edit();

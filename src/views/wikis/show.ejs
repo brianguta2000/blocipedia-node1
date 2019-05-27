@@ -11,12 +11,25 @@
       <% include ../static/partials/messages.ejs %>
 
       <h1><%= wiki.title %></h1>
+
+      <% function isCollaborator(userId, wikiCollaboratorArr){ %>
+        <% for(let i = 0; i<wikiCollaboratorArr.length; i++) { %>
+          <% if( wikiCollaboratorArr[i].User.id === userId){ %>
+            <% return true; %>
+          <% } %>
+        <% } %>
+        <% return false; %>
+      <% } %>
+
         <% if(currentUser) { %>
             <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
             <% if(currentUser.role === 2 || currentUser.id === wiki.userId) { %>
-            <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="post">
-              <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
+              <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            <% } %>
+            <% if(wiki.private && (currentUser.role === 2 || (currentUser.id === wiki.userId && currentUser.role === 1) || isCollaborator(currentUser.id, wiki.collaborators))) { %>
+              <a href="/wikis/<%= wiki.id %>/collaborators" class="btn btn-primary">Collaborators</a>
             <% } %>
         <% } %>
       <hr>

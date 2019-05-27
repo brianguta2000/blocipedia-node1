@@ -28,8 +28,25 @@
               <p>You have no private wikis.</p>
             <% } %>
           </ul>
-          <hr>
         <% } %>
+        <h1>Wikis You're a Collaborator On</h1>
+        <% var hasCollaborateWikis = false %>
+        <ul class="list-group">
+          <% wikis.forEach((wiki) => { %>
+            <% var collaborators = wiki.collaborators %>
+            <% for(let i = 0; i < collaborators.length; i++){ %>
+              <% if(collaborators[i].User.id === currentUser.id){ %>
+                <li class="list-group-item">
+                  <a href="/wikis/<%= wiki.id %>"> <%= wiki.title %> </a>
+                </li>
+                <% hasCollaborateWikis = true; %>
+              <% } %>
+            <% } %>
+          <% }) %>
+          <% if(!hasCollaborateWikis) { %>
+            <p>You are not a collaborator on any wikis.</p>
+          <% } %>
+        </ul>
         <h1>Your Public Wikis</h1>
         <% var hasPublicWikis = false %>
         <ul class="list-group">
@@ -45,7 +62,6 @@
             <p>You have no public wikis.</p>
           <% } %>
         </ul>
-        <hr>
         <% if(currentUser.role === 2) { %>
           <h1>All Private Wikis</h1>
           <% var arePrivateWikis = false %>
@@ -62,14 +78,10 @@
               <p>There are no private wikis.</p>
             <% } %>
           </ul>
-          <hr>
         <% } %>
       <% } %>
-
       <h1>All Public Wikis</h1>
-
       <ul class="list-group">
-
         <% wikis.forEach((wiki) => { %>
           <% if(wiki.private === false) { %>
             <li class="list-group-item">
@@ -78,10 +90,7 @@
           <% } %>
         <% }) %>
       </ul>
-
     </main>
-
     <% include ../static/partials/baseScripts.ejs %>
-
   </body>
 </html>

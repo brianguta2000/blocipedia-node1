@@ -1,0 +1,12 @@
+<ul class="list-group" style="margin-bottom: 10px">
+  <li class="list-group-item">
+    <form action="/wikis/<%= wiki.id %>/collaborators/create" method="post" class="form-inline">
+      <div class="form-group">
+        <label for="email"><b>Add Collaborator:</b></label>
+        <input style="margin:0 8px" type="email" class="form-control" name="email" aria-describedby="bodyHelp" placeholder="enter email" />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <small class="text-muted" id="bodyHelp">collaborators must already have a Blocipedia account.</small>
+  </li>
+</ul>
